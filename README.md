@@ -1,7 +1,7 @@
-Employee Management System
+##Employee Management System
 This Java application is an Employee Management System that uses a MySQL database to store and manage employee information. The system allows users to add new employees and view existing employees through a graphical user interface (GUI) built with Swing.
 
-Features
+##Features
 Add Employee: Add new employee records to the database.
 View Employees: View all employee records stored in the database.
 Exit: Close the application.
@@ -9,7 +9,10 @@ Prerequisites
 Java Development Kit (JDK) 8 or higher
 MySQL database server
 MySQL JDBC Driver
-Installation
+
+
+
+##Installation
 Clone the repository:
 
 sh
@@ -18,7 +21,7 @@ git clone https://github.com/your-username/employee-management-system.git
 cd employee-management-system
 Set up the MySQL database:
 
-Create a database named ems:
+##Create a database named ems:
 
 sql
 Copy code
@@ -40,7 +43,7 @@ CREATE TABLE employees (
 );
 Configure the database connection:
 
-Update the connectDatabase method in EmployeeManagementSystem.java with your MySQL database credentials:
+##Update the connectDatabase method in EmployeeManagementSystem.java with your MySQL database credentials:
 
 java
 Copy code
@@ -56,7 +59,11 @@ private void connectDatabase() {
         JOptionPane.showMessageDialog(null, "Error connecting to database: " + e.getMessage());
     }
 }
-Usage
+
+
+
+
+##Usage
 Compile and run the application:
 
 sh
