@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +14,7 @@ public class EmployeeManagementSystem extends JFrame {
 
         // Set up the frame
         setTitle("Employee Management Information System");
-        setSize(800, 600);
+        setSize(900, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -21,6 +22,7 @@ public class EmployeeManagementSystem extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem exitMenuItem = new JMenuItem("Exit");
+        exitMenuItem.setIcon(new ImageIcon("icons/exit.png")); // Add an icon
         fileMenu.add(exitMenuItem);
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
@@ -53,26 +55,28 @@ public class EmployeeManagementSystem extends JFrame {
     private JPanel createAddEmployeePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setBorder(BorderFactory.createTitledBorder("Add New Employee"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Add components
         JLabel nameLabel = new JLabel("Name:");
-        JTextField nameField = new JTextField(15); // shorter text field
+        JTextField nameField = new JTextField(20);
         JLabel ageLabel = new JLabel("Age:");
-        JTextField ageField = new JTextField(15); // shorter text field
+        JTextField ageField = new JTextField(20);
         JLabel positionLabel = new JLabel("Position:");
-        JTextField positionField = new JTextField(15); // shorter text field
+        JTextField positionField = new JTextField(20);
         JLabel salaryLabel = new JLabel("Salary:");
-        JTextField salaryField = new JTextField(15); // shorter text field
+        JTextField salaryField = new JTextField(20);
         JLabel promotionDueDateLabel = new JLabel("Promotion Due Date:");
-        JTextField promotionDueDateField = new JTextField(15); // shorter text field
+        JTextField promotionDueDateField = new JTextField(20);
         JLabel noticeBoardLabel = new JLabel("Notice Board:");
-        JTextArea noticeBoardArea = new JTextArea(5, 15); // shorter text area
+        JTextArea noticeBoardArea = new JTextArea(5, 20);
         JScrollPane noticeBoardScrollPane = new JScrollPane(noticeBoardArea);
 
         JButton addButton = new JButton("Add Employee");
+        addButton.setIcon(new ImageIcon("icons/add.png")); // Add an icon
 
         // Position components using GridBagLayout
         gbc.gridx = 0; gbc.gridy = 0; panel.add(nameLabel, gbc);
@@ -130,11 +134,16 @@ public class EmployeeManagementSystem extends JFrame {
 
     private JPanel createViewEmployeesPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        JTextArea textArea = new JTextArea();
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        panel.setBorder(BorderFactory.createTitledBorder("Employee List"));
+
+        // Create table model and table
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID", "Name", "Age", "Position", "Salary", "Promotion Due Date", "Notice Board"}, 0);
+        JTable table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);
 
         JButton viewButton = new JButton("View Employees");
+        viewButton.setIcon(new ImageIcon("icons/view.png")); // Add an icon
         viewButton.setToolTipText("Click to view all employees");
         panel.add(viewButton, BorderLayout.SOUTH);
 
@@ -144,7 +153,7 @@ public class EmployeeManagementSystem extends JFrame {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
 
-                textArea.setText(""); // Clear the text area
+                model.setRowCount(0); // Clear the table model
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     String name = resultSet.getString("name");
@@ -154,14 +163,7 @@ public class EmployeeManagementSystem extends JFrame {
                     Date promotionDueDate = resultSet.getDate("promotion_due_date");
                     String noticeBoard = resultSet.getString("notice_board");
 
-                    textArea.append("ID: " + id + "\n");
-                    textArea.append("Name: " + name + "\n");
-                    textArea.append("Age: " + age + "\n");
-                    textArea.append("Position: " + position + "\n");
-                    textArea.append("Salary: " + salary + "\n");
-                    textArea.append("Promotion Due Date: " + promotionDueDate + "\n");
-                    textArea.append("Notice Board: " + noticeBoard + "\n");
-                    textArea.append("\n");
+                    model.addRow(new Object[]{id, name, age, position, salary, promotionDueDate, noticeBoard});
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
