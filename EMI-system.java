@@ -308,3 +308,4 @@ public class EmployeeManagementSystem extends JFrame {
         SwingUtilities.invokeLater(() -> new EmployeeManagementSystem().setVisible(true));
     }
 }
+ 
